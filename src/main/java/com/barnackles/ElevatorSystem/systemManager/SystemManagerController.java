@@ -60,8 +60,17 @@ public class SystemManagerController {
         calledElevatorDestinations.add(actionFloor);
         calledElevatorDestinations.add(destinationFloor);
         elevatorService.updateElevator(id, calledElevator);
-        log.info("Destination Floor: {} added for elevator number: {}. \n List of destinations: {}",
-                destinationFloor, id, elevatorService.getElevatorById(id).getDestinationsQueue());
+        log.info("Destination Floor: {} added for elevator number: {}. Action Floor: {} \n Destinations: {}",
+                destinationFloor, actionFloor, id, elevatorService.getElevatorById(id).getDestinationsQueue().toString());
+
+        return "redirect:/home";
+    }
+
+    @GetMapping("/step")
+
+    public String step() {
+
+        elevatorService.simulationStep();
 
         return "redirect:/home";
     }

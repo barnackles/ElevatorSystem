@@ -18,5 +18,4 @@ public class Elevator {
 //    private List<Integer> destinationsList;
     private Queue<Integer> destinationsQueue;
 
-
 }

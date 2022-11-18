@@ -34,8 +34,8 @@ public class ElevatorRepositoryImp implements ElevatorRepository {
     public void addElevator(int numberOfFloors) {
         Elevator elevator = new Elevator();
         elevator.setCarId(currId);
-        elevator.setCurrentFloor(numberOfFloors/2);
-        elevator.setDestinationFloor(numberOfFloors/2);
+        elevator.setCurrentFloor(numberOfFloors / 2);
+        elevator.setDestinationFloor(numberOfFloors / 2);
         elevator.setNumberOfFloors(numberOfFloors);
         elevator.setDirection(0);
 //        elevator.setDestinationsList(new ArrayList<>());

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Elevator System Manager</h1>
+<br>
+<a href="">Start Simulation</a>
+<a href="">Stop Simulation</a>
+<a href="">Single Step</a>
+<br>
+<table border="1">
+
+    <thead>
+        <tr>
+            <th>Elevator Id</th>
+            <th>Current Floor</th>
+            <th>Destination Floor</th>
+            <th>Destinations</th>
+            <th>Direction</th>
+        </tr>
+    </thead>
+   <tbody>
+        <tr th:each="e: ${elevatorList}">
+            <td th:text="${e.carId}"></td>
+            <td th:text="${e.currentFloor}"></td>
+            <td th:text="${e.destinationFloor}"></td>
+<!--            <td th:text="${e.destinationsList}"></td>-->
+            <td th:text="${e.destinationsQueue}"></td>
+            <td th:text="${e.direction}"></td>
+        </tr>
+   </tbody>
+
+
+</table>
+<br>
+
+
+</table>
+
+<form th:action="@{/call}" method="POST">
+    <label> Elevator id:</label>
+    <select th:name="id" >
+        <option th:each="e: ${elevatorList}" th:value="${e.carId}" th:text="${e.carId}"></option>
+    </select>
+    <label> Your floor:</label>
+    <select th:name="actionFloor">
+        <option  th:each="i : ${#numbers.sequence(1, floors)}" th:value="${i}" th:text="${i}"></option>
+    </select>
+    <label> Destination floor:</label>
+    <select th:name="destinationFloor" >
+        <option th:each="i : ${#numbers.sequence(1, floors)}" th:value="${i}" th:text="${i}"></option>
+    </select>
+    <input type="submit">
+</form>
+<br>
+</body>
+</html>

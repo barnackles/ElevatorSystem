@@ -52,9 +52,9 @@ public class ElevatorService {
 
         for (Elevator e: getAllElevators()) {
 
-            e.setDestinationFloor(updateDestinationFloor(e));
-            updateElevator(e.getCarId(), e);
             e.setDirection(updateDirection(e));
+            updateElevator(e.getCarId(), e);
+            e.setDestinationFloor(updateDestinationFloor(e));
             updateElevator(e.getCarId(), e);
             e.setCurrentFloor(updateCurrentFloor(e));
             updateElevator(e.getCarId(), e);
@@ -71,20 +71,24 @@ public class ElevatorService {
         // If queue is not empty and current floor is different from destination floor
         // take first element of the queue and set it as the destination floor
         if((!(e.getDestinationsQueue().isEmpty())) && (e.getCurrentFloor() != (e.getDestinationFloor()))) {
-            log.info("Destination not reached. Keep current destination");
+            log.info("Destination not reached. Keep current destination.");
             return e.getDestinationFloor();
         } else if((!(e.getDestinationsQueue().isEmpty())) && (e.getCurrentFloor() == (e.getDestinationFloor())))  {
             // If queue is not empty and current floor is the same as destination floor
-            log.info("Next destination is: {}", e.getDestinationsQueue().element());
+            log.info("Stopped at floor: {}.", e.getCurrentFloor());
+            log.info("Next destination is: {}.", e.getDestinationsQueue().element());
             return e.getDestinationsQueue().element();
         } else if((e.getDestinationsQueue().isEmpty()) && (e.getCurrentFloor() != (e.getDestinationFloor())))  {
             // If queue is empty and current floor is different from destination floor
-            log.info("Destination not reached. Keep current destination");
+            log.info("Destination not reached. Keep current destination.");
             return e.getDestinationFloor();
         } else {
             // if queue is empty and destination = current go to default.
-            log.info("No destinations returning to default");
-            return e.getNumberOfFloors() / 2;
+//            log.info("No destinations returning to default");
+//            return e.getNumberOfFloors() / 2;
+            // or do nothing.
+            log.info("No destinations - stop and wait for call.");
+            return e.getDestinationFloor();
         }
 //
 
@@ -95,16 +99,21 @@ public class ElevatorService {
     }
 
     private int updateCurrentFloor(Elevator e) {
+        int velocity = setVelocity(e);
+
         if (e.getDirection() == 1) {
 
-            return e.getCurrentFloor() + 1;
+            return e.getCurrentFloor() + velocity;
 
         } else if (e.getDirection() == -1) {
 
-            return e.getCurrentFloor() - 1;
+            return e.getCurrentFloor() - velocity;
 
-        } else return e.getCurrentFloor();
+        } else {
+            return e.getCurrentFloor();
+        }
     }
+
 
     private Queue<Integer> updateDestinations(Elevator e) {
 
@@ -114,5 +123,40 @@ public class ElevatorService {
             updatedQueue.remove();
             return updatedQueue;
         } else return e.getDestinationsQueue();
+    }
+
+    private int setVelocity(Elevator e) {
+
+        int distance = Math.abs(e.getCurrentFloor() - e.getDestinationFloor());
+
+        // if distance between current floor and destination floor is less than 5 set v to 1.
+        if(distance >= 1 && distance < 5) {
+            log.info("Velocity: 1.");
+            return 1;
+        }
+
+        // if distance between current floor and destination floor greater than 5 set v to 2.
+        if (distance >= 5 && distance < 10) {
+            log.info("Velocity: 2.");
+            return 2;
+        }
+        // if distance between current floor and destination floor greater than 10 set v to 3.
+        if (distance >= 10 && distance < 20) {
+            log.info("Velocity: 3.");
+            return 3;
+        }
+        // if distance between current floor and destination floor greater than 20 set v to 5.
+        if (distance >= 20 && distance < 50) {
+            log.info("Velocity: 5.");
+            return 5;
+        }
+        // if distance between current floor and destination floor greater than 50 set v to 10.
+        if (distance >= 50) {
+            log.info("Velocity: 10.");
+            return 10;
+        }
+        // if distance between current floor and destination floor is 0 set v to 0 and stop.
+        log.info("Velocity: 0.");
+        return 0;
     }
 }

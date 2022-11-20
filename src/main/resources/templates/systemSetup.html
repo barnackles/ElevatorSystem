@@ -10,14 +10,23 @@
 
 <p>Please insert system setup:</p>
 <br>
-<form th:action="@{/add-elevators}" method="post">
+<form th:action="@{/}" method="post" th:object="${elevatorSystemSetupDto}">
     <label>Number of elevators: </label>
-        <input type="number" th:name="numberOfElevators">
+        <input type="number" th:field="*{numberOfElevators}" >
     <br>
     <label>Number of floors:</label>
-        <input type="number" th:name="numberOfFloors">
+        <input type="number" th:field="*{numberOfFloors}"  >
+    <p th:if="${#fields.hasErrors('numberOfFloors')}" th:text="${err}"></p>
     <br>
+    <div th:if="${#fields.hasAnyErrors()}">
+        <ul>
+            <li th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+        </ul>
+    </div>
+
     <input type="submit">
+    <br>
+
 </form>
 </body>
 </html>

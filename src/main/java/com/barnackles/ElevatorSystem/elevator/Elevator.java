@@ -15,7 +15,6 @@ public class Elevator {
     private int destinationFloor;
     private int numberOfFloors;
     private int direction; // heading up, down or idle
-//    private List<Integer> destinationsList;
     private Queue<Integer> destinationsQueue;
 
 }

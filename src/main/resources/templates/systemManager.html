@@ -39,22 +39,46 @@
 
 
 </table>
+<h2> Call the elevator and choose your destination floor (from the outside): </h2>
+    <form th:action="@{/outside}" method="POST" th:object="${outsideCallDto}">
+        <label> Elevator id:</label>
+        <select th:field="*{elevatorId}" >
+            <option th:each="e: ${elevatorList}" th:value="${e.carId}" th:text="${e.carId}"></option>
+        </select>
+        <label> Your floor:</label>
+        <select th:field="*{actionFloor}">
+            <option  th:each="i : ${#numbers.sequence(1, floors)}" th:value="${i}" th:text="${i}"></option>
+        </select>
+        <label> Destination floor:</label>
+        <select th:field="*{destinationFloors}" multiple>
+            <option th:each="i : ${#numbers.sequence(1, floors)}" th:value="${i}" th:text="${i}"></option>
+        </select>
+        <input type="submit">
+        <div th:if="${#fields.hasAnyErrors()}">
+            <ul>
+                <li th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+            </ul>
+        </div>
+    </form>
 
-<form th:action="@{/call}" method="POST">
+<h2> Choose destination floor (from the inside): </h2>
+<form th:action="@{/inside}" method="POST" th:object="${insideCallDto}">
     <label> Elevator id:</label>
-    <select th:name="id" >
+    <select th:field="*{elevatorId}" >
         <option th:each="e: ${elevatorList}" th:value="${e.carId}" th:text="${e.carId}"></option>
     </select>
-    <label> Your floor:</label>
-    <select th:name="actionFloor">
-        <option  th:each="i : ${#numbers.sequence(1, floors)}" th:value="${i}" th:text="${i}"></option>
-    </select>
     <label> Destination floor:</label>
-    <select th:name="destinationFloor" >
+    <select th:field="*{destinationFloors}" multiple>
         <option th:each="i : ${#numbers.sequence(1, floors)}" th:value="${i}" th:text="${i}"></option>
     </select>
     <input type="submit">
+    <div th:if="${#fields.hasAnyErrors()}">
+        <ul>
+            <li th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+        </ul>
+    </div>
 </form>
+
 <br>
 </body>
 </html>

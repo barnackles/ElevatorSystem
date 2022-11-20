@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 
-@Service // no database therefore service
+@Service
+// this implementation does not utilize database therefore service
+
 public class ElevatorRepositoryImp implements ElevatorRepository {
 
     private List<Elevator> elevatorList;
@@ -61,7 +63,8 @@ public class ElevatorRepositoryImp implements ElevatorRepository {
 
     @Override
     public void deleteAllElevators() {
-        this.elevatorList = new ArrayList<>();
+        elevatorList.clear();
+        currId = 1L;
     }
 
     @Override

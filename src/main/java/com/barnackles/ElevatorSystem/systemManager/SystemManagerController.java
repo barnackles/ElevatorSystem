@@ -1,20 +1,17 @@
 package com.barnackles.ElevatorSystem.systemManager;
 
-import com.barnackles.ElevatorSystem.call.InsideCallDto;
-import com.barnackles.ElevatorSystem.call.OutsideCallDto;
+import com.barnackles.ElevatorSystem.dtos.InsideCallDto;
+import com.barnackles.ElevatorSystem.dtos.OutsideCallDto;
 import com.barnackles.ElevatorSystem.dtos.ElevatorSystemSetupDto;
 import com.barnackles.ElevatorSystem.elevator.Elevator;
 import com.barnackles.ElevatorSystem.elevator.ElevatorService;
-import com.barnackles.ElevatorSystem.simRunner.RunSimulationTask;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -25,12 +22,7 @@ import java.util.Queue;
 @RequiredArgsConstructor
 @Slf4j
 public class SystemManagerController {
-
-    private final ThreadPoolTaskScheduler scheduler;
     private final ElevatorService elevatorService;
-
-
-
 
 
     @GetMapping("/")
@@ -51,6 +43,14 @@ public class SystemManagerController {
         log.info("values: {}, {} ", elevatorSystemSetupDto.getNumberOfElevators(), elevatorSystemSetupDto.getNumberOfFloors());
         elevatorService.addNumberOfElevators(elevatorSystemSetupDto.getNumberOfElevators(), elevatorSystemSetupDto.getNumberOfFloors());
         return "redirect:/home";
+    }
+
+    @GetMapping("/reset")
+    public String resetSimulation() {
+        log.info("Clear.");
+        elevatorService.deleteAllElevators();
+
+        return "redirect:/";
     }
 
 
@@ -136,15 +136,6 @@ public class SystemManagerController {
 
         return "redirect:/home";
     }
-
-    @GetMapping("/simulate")
-    @ResponseBody
-    public String startSimulation() {
-
-        scheduler.scheduleAtFixedRate(new RunSimulationTask(), 1000);
-        return "simulate";
-    }
-
 
 
 

@@ -71,23 +71,23 @@ public class ElevatorService {
         // If queue is not empty and current floor is different from destination floor
         // take first element of the queue and set it as the destination floor
         if((!(e.getDestinationsQueue().isEmpty())) && (e.getCurrentFloor() != (e.getDestinationFloor()))) {
-            log.info("Destination not reached. Keep current destination.");
+            log.info("Elevator: {} - Destination not reached. Keep current destination.", e.getCarId());
             return e.getDestinationFloor();
         } else if((!(e.getDestinationsQueue().isEmpty())) && (e.getCurrentFloor() == (e.getDestinationFloor())))  {
             // If queue is not empty and current floor is the same as destination floor
-            log.info("Stopped at floor: {}.", e.getCurrentFloor());
-            log.info("Next destination is: {}.", e.getDestinationsQueue().element());
+            log.info("Elevator: {} - Stopped at floor: {}.", e.getCarId(), e.getCurrentFloor());
+            log.info("Elevator : {} - Next destination is: {}.", e.getCarId(), e.getDestinationsQueue().element());
             return e.getDestinationsQueue().element();
         } else if((e.getDestinationsQueue().isEmpty()) && (e.getCurrentFloor() != (e.getDestinationFloor())))  {
             // If queue is empty and current floor is different from destination floor
-            log.info("Destination not reached. Keep current destination.");
+            log.info("Elevator: {} - Destination not reached. Keep current destination.", e.getCarId());
             return e.getDestinationFloor();
         } else {
             // if queue is empty and destination = current go to default.
 //            log.info("No destinations returning to default");
 //            return e.getNumberOfFloors() / 2;
             // or do nothing.
-            log.info("No destinations - stop and wait for call.");
+            log.info("Elevator: {} - No destinations - stop and wait for call.", e.getCarId());
             return e.getDestinationFloor();
         }
 //
@@ -131,32 +131,32 @@ public class ElevatorService {
 
         // if distance between current floor and destination floor is less than 5 set v to 1.
         if(distance >= 1 && distance < 5) {
-            log.info("Velocity: 1.");
+            log.info("Elevator: {} - Velocity: 1.", e.getCarId());
             return 1;
         }
 
         // if distance between current floor and destination floor greater than 5 set v to 2.
         if (distance >= 5 && distance < 10) {
-            log.info("Velocity: 2.");
+            log.info("Elevator: {} - {} Velocity: 2.", e.getCarId());
             return 2;
         }
         // if distance between current floor and destination floor greater than 10 set v to 3.
         if (distance >= 10 && distance < 20) {
-            log.info("Velocity: 3.");
+            log.info("Elevator: {} - Velocity: 3.", e.getCarId());
             return 3;
         }
         // if distance between current floor and destination floor greater than 20 set v to 5.
         if (distance >= 20 && distance < 50) {
-            log.info("Velocity: 5.");
+            log.info("Elevator: {} - Velocity: 5.", e.getCarId());
             return 5;
         }
         // if distance between current floor and destination floor greater than 50 set v to 10.
         if (distance >= 50) {
-            log.info("Velocity: 10.");
+            log.info("Elevator: {} - Velocity: 10.", e.getCarId());
             return 10;
         }
         // if distance between current floor and destination floor is 0 set v to 0 and stop.
-        log.info("Velocity: 0.");
+        log.info("Elevator: {} - Velocity: 0.", e.getCarId());
         return 0;
     }
 }

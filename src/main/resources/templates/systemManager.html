@@ -3,42 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+
 </head>
 <body>
 <h1>Elevator System Manager</h1>
 <br>
-<a href="">Start Simulation</a>
-<a href="">Stop Simulation</a>
+
 <a th:href="@{/step}">Single Step</a>
+<a th:href="@{/reset}">Reset Simulation</a>
+
 <br>
-<table border="1">
+<div>
+    <table border="1">
 
-    <thead>
-        <tr>
-            <th>Elevator Id</th>
-            <th>Current Floor</th>
-            <th>Destination Floor</th>
-            <th>Destinations</th>
-            <th>Direction</th>
-        </tr>
-    </thead>
-   <tbody>
-        <tr th:each="e: ${elevatorList}">
-            <td th:text="${e.carId}"></td>
-            <td th:text="${e.currentFloor}"></td>
-            <td th:text="${e.destinationFloor}"></td>
-<!--            <td th:text="${e.destinationsList}"></td>-->
-            <td th:text="${e.destinationsQueue}"></td>
-            <td th:text="${e.direction}"></td>
-        </tr>
-   </tbody>
+        <thead>
+            <tr>
+                <th>Elevator Id</th>
+                <th>Current Floor</th>
+                <th>Destination Floor</th>
+                <th>Destinations</th>
+                <th>Direction</th>
+            </tr>
+        </thead>
+       <tbody>
+            <tr th:each="e: ${elevatorList}">
+                <td th:text="${e.carId}"></td>
+                <td th:text="${e.currentFloor}"></td>
+                <td th:text="${e.destinationFloor}"></td>
+                <td th:text="${e.destinationsQueue}"></td>
+                <td th:text="${e.direction}"></td>
+            </tr>
+       </tbody>
 
 
-</table>
+    </table>
 <br>
+</div>
 
-
-</table>
 <h2> Call the elevator and choose your destination floor (from the outside): </h2>
     <form th:action="@{/outside}" method="POST" th:object="${outsideCallDto}">
         <label> Elevator id:</label>
@@ -80,5 +82,6 @@
 </form>
 
 <br>
+
 </body>
 </html>

@@ -2,7 +2,7 @@
 
 Elevator system.
 
-Application is written in Java with use of Spring boot.
+Application is written in Java with use of Spring boot (MVC).
 Simulation data is stored in memory (non-persistent).
 
 System interface allows to:
